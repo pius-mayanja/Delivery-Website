@@ -5,27 +5,27 @@
 {% load humanize %}
 
 {% block content %}
-<section class="intro-single py-5">
+<section class="intro-single">
   <div class="container">
-    <div class="row">
-      <div class="col-md-12 col-lg-8">
-        <div class="title-single-box">
-          <h1 class="title-single">{{product.name}}</h1>
-          <span class="color-text-a">{{product.category}}</span><br>
-          <span class="color-text-a">shs. {{product.price | intcomma}}</span>
-        </div>
+      <div class="row">
+          <div class="col-md-12 col-lg-8">
+              <div class="title-single-box">
+                  <h1 class="title-single">{{product.name}}</h1>
+                  <span class="color-text-a">{{product.category}}</span><br>
+                  <span class="color-text-a">shs. {{product.price | intcomma}}</span>
+              </div>
+          </div>
       </div>
-    </div>
   </div>
 </section>
 
-<section class="property-single nav-arrow-b py-5">
+<section>
   <div class="container">
     <div class="property-container">
       <div class="row">
         <div class="col-lg-6">
           <div class="property-image mb-4">
-            <img class="img-fluid" src="{{product.image.url}}" alt="Image">
+            <img class="img-fluid" src="{{product.image.url}}" alt="Image" style="max-width: 100%;">
           </div>
         </div>
         <div class="col-lg-6">
@@ -55,22 +55,38 @@
               <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-video" role="tabpanel"
                   aria-labelledby="pills-video-tab">
-                  <div class="d-flex align-items-center">
-                    <div class="quantity-controls inline-block">
-                      <button type="button" class="btn btn-success" onclick="decreaseQuantity()">-</button>
-                      <span id="quantityDisplay" class="mx-2">1</span>
-                      <!-- Display the quantity with mx-2 for margin on both sides -->
-                      <button type="button" class="btn btn-success" onclick="increaseQuantity()">+</button>
+                  <div class="card border-secondary">
+                    <div class="card-header bg-blue-200 border-0">
+                      <h4 class="font-weight-semi-bold m-0 text-center">Add {{product.name}} to your Cart</h4>
                     </div>
-                    <form action=" " method="post" class="ml-3 inline-block">
-                      {% csrf_token %}
-                      <input type="hidden" name="quantity" id="quantity" value="1">
-                      <!-- Hidden input field for quantity -->
-                      <input type="hidden" name="override" value="False">
-                      <button type="submit" class="btn btn-danger px-3">
-                        <i class="fa fa-shopping-cart mr-5"></i> Add To Cart
-                      </button>
-                    </form>
+                    <div class="card-body">
+                      <div class="d-flex flex-column">
+                        <div class="d-flex align-items-center">
+                          <div class="quantity-controls d-flex align-items-center">
+                            <h6 class="mr-2">Quantity:</h6> <!-- Added text 'Quantity' -->
+                            <button type="button" class="btn btn-success ml-3 btn-sm px-3" onclick="decreaseQuantity()">-</button>
+                            <span id="quantityDisplay" class="mx-2">1</span>
+                            <button type="button" class="btn btn-success btn-sm px-3" onclick="increaseQuantity()">+</button>
+                          </div>
+                        </div>   
+                        </div>
+                        <form class="mt-3">
+                          {% csrf_token %}
+                          <input type="hidden" name="quantity" id="quantity" value="1">
+                          <input type="hidden" name="override" value="False">
+                          <button type="submit" class="btn btn-danger px-3">
+                            <i class="fa fa-shopping-cart mr-2"></i> Add To Cart
+                          </button>
+                          <a href="{%url 'products:home' %}"><button class="btn btn-primary px-3">
+                            <i class="fa fa-shopping-cart mr-2"></i> Continue Shopping
+                          </button></a>
+                          <a href="{%url 'products:home' %}"><button type="submit" class="btn btn-primary px-3">
+                            <i class="fa fa-shopping-cart mr-2"></i>Request Delivery
+                          </button></a>
+                        </form>
+                      </div>
+                    </div>
+                    
                   </div>
                 </div>
                 <div class="tab-pane fade" id="pills-map" role="tabpanel" aria-labelledby="pills-map-tab">
@@ -85,7 +101,7 @@
                           <textarea class="form-control"
                             placeholder="eg. how does the delivery work etc...."></textarea>
                         </div>
-                        <button type="submit" class="btn btn-block btn-success my-3 py-2 font-semibold">Send </button>
+                        <button type="submit" class="btn btn-success btn-lg btn-block mt-3">Send </button>
                       </form>
                     </div>
                   </div>
@@ -126,4 +142,24 @@
     </div>
   </section>
 </section>
+
+<script>
+  function decreaseQuantity() {
+      var quantityDisplay = document.getElementById('quantityDisplay');
+      var quantityInput = document.getElementById('quantity');
+      var currentValue = parseInt(quantityDisplay.innerText);
+      if (currentValue > 1) {
+          quantityDisplay.innerText = currentValue - 1;
+          quantityInput.value = currentValue - 1;  // Update the hidden input field
+      }
+  }
+
+  function increaseQuantity() {
+      var quantityDisplay = document.getElementById('quantityDisplay');
+      var quantityInput = document.getElementById('quantity');
+      var currentValue = parseInt(quantityDisplay.innerText);
+      quantityDisplay.innerText = currentValue + 1;
+      quantityInput.value = currentValue + 1;  // Update the hidden input field
+  }
+</script>
 {% endblock %}
