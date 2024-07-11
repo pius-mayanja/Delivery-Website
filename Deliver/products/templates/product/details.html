@@ -5,45 +5,100 @@
 {% load humanize %}
 
 {% block content %}
-<section class="intro-single">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 col-lg-8">
-                <div class="title-single-box">
-                    <h1 class="title-single">{{product.name}}</h1>
-                    <span class="color-text-a">{{product.category}}</span><br>
-                    <span class="color-text-a">shs. {{product.price | intcomma}}</span>
-                </div>
-            </div>
+<section class="intro-single py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 col-lg-8">
+        <div class="title-single-box">
+          <h1 class="title-single">{{product.name}}</h1>
+          <span class="color-text-a">{{product.category}}</span><br>
+          <span class="color-text-a">shs. {{product.price | intcomma}}</span>
         </div>
+      </div>
     </div>
+  </div>
 </section>
 
-<section class="property-single nav-arrow-b">
-    <div class="container">
-        <div class="pb-5">
-            <div>
-                <img style="width: 30rem;" src="{{product.image.url}}" alt="Image">
-            </div>
+<section class="property-single nav-arrow-b py-5">
+  <div class="container">
+    <div class="property-container">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="property-image mb-4">
+            <img class="img-fluid" src="{{product.image.url}}" alt="Image">
+          </div>
         </div>
-        <div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="title-box-d">
-                        <h3 class="title-d">Property Description</h3>
-                    </div>
-                </div>
+        <div class="col-lg-6">
+          <div class="property-details">
+            <div class="title-box-d mb-4">
+              <h3 class="title-d">Property Description</h3>
             </div>
             <div class="property-description">
-                <p class="description color-text-a">
-                    {{ property.description }}
-                </p>
+              <p class="description color-text-a">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore veniam unde impedit quaerat harum,
+                voluptatibus reprehenderit dignissimos modi consectetur expedita! Optio ad pariatur possimus rem
+                obcaecati saepe. Ea, iure nihil!
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim distinctio alias animi quibusdam,
+                voluptatum error quo! Omnis culpa est exercitationem et ex nihil, ipsa temporibus ipsam amet iure nam
+                distinctio?
+              </p>
+              <ul class="nav nav-pills nav-pills-a nav-pills mb-4" id="pills-tab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" id="pills-video-tab" data-bs-toggle="pill" href="#pills-video" role="tab"
+                    aria-controls="pills-video" aria-selected="true">Cart Options</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="pills-map-tab" data-bs-toggle="pill" href="#pills-map" role="tab"
+                    aria-controls="pills-map" aria-selected="false">Inquiries</a>
+                </li>
+              </ul>
+              <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-video" role="tabpanel"
+                  aria-labelledby="pills-video-tab">
+                  <div class="d-flex align-items-center">
+                    <div class="quantity-controls inline-block">
+                      <button type="button" class="btn btn-success" onclick="decreaseQuantity()">-</button>
+                      <span id="quantityDisplay" class="mx-2">1</span>
+                      <!-- Display the quantity with mx-2 for margin on both sides -->
+                      <button type="button" class="btn btn-success" onclick="increaseQuantity()">+</button>
+                    </div>
+                    <form action=" " method="post" class="ml-3 inline-block">
+                      {% csrf_token %}
+                      <input type="hidden" name="quantity" id="quantity" value="1">
+                      <!-- Hidden input field for quantity -->
+                      <input type="hidden" name="override" value="False">
+                      <button type="submit" class="btn btn-danger px-3">
+                        <i class="fa fa-shopping-cart mr-5"></i> Add To Cart
+                      </button>
+                    </form>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="pills-map" role="tabpanel" aria-labelledby="pills-map-tab">
+                  <div class="card border-secondary">
+                    <div class="card-header bg-blue-200 border-0">
+                      <h4 class="font-weight-semi-bold m-0 text-center">Send a Message</h4>
+                    </div>
+                    <div class="card-body">
+                      <form>
+                        <div class="form-group mt-2">
+                          <label for="exampleInputPassword1">Content</label>
+                          <textarea class="form-control"
+                            placeholder="eg. how does the delivery work etc...."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-block btn-success my-3 py-2 font-semibold">Send </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-</section>
+  </div>
 
-<section class="section-property section-t8 py-5 bg-light">
+  <section class="section-property section-t8 bg-light py-5">
     <div class="container">
       <div class="row mb-4">
         <div class="col-md-12">
@@ -69,5 +124,6 @@
         {% endfor %}
       </div>
     </div>
-  </section><!-- End Latest Properties Section -->
+  </section>
+</section>
 {% endblock %}
